@@ -1,84 +1,115 @@
 import React from 'react';
-import { useBanking } from '../context/BankingContext';
 import {
-  LayoutDashboard,
+  Compass,
+  Wallet,
   CreditCard,
   ArrowRightLeft,
-  ArrowDownCircle,
-  ArrowUpCircle,
-  History,
-  FileSpreadsheet,
-  UserCheck,
+  Send,
+  FileText,
+  TrendingUp,
+  BarChart3,
   ShieldAlert,
-  Users,
-  Settings,
-  DatabaseZap,
-  Activity,
+  X,
 } from 'lucide-react';
+import { useBanking } from '../context/BankingContext';
+
+export type NavTabId =
+  | 'dashboard'
+  | 'accounts'
+  | 'cards'
+  | 'transactions'
+  | 'payment'
+  | 'invoicing'
+  | 'trading'
+  | 'reports'
+  | 'admin';
 
 interface SidebarProps {
-  currentTab: string;
-  onSelectTab: (tab: string) => void;
-  isOpen: boolean;
+  currentTab: NavTabId;
+  onSelectTab: (tab: NavTabId) => void;
+  isOpenMobile: boolean;
   onCloseMobile: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab, isOpen, onCloseMobile }) => {
+export const Sidebar: React.FC<SidebarProps> = ({
+  currentTab,
+  onSelectTab,
+  isOpenMobile,
+  onCloseMobile,
+}) => {
   const { currentRole } = useBanking();
 
-  const customerNav = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'accounts', label: 'Accounts', icon: CreditCard },
-    { id: 'transfers', label: 'Transfer Money', icon: ArrowRightLeft },
-    { id: 'deposit', label: 'Deposit Funds', icon: ArrowDownCircle },
-    { id: 'withdraw', label: 'Withdraw Funds', icon: ArrowUpCircle },
-    { id: 'transactions', label: 'Transactions', icon: History },
-    { id: 'statements', label: 'Statements (CSV)', icon: FileSpreadsheet },
-    { id: 'profile', label: 'Profile & KYC', icon: UserCheck },
+  const navItems = [
+    { id: 'dashboard' as NavTabId, label: 'Dashboard', icon: Compass },
+    { id: 'accounts' as NavTabId, label: 'Accounts', icon: Wallet },
+    { id: 'cards' as NavTabId, label: 'Cards', icon: CreditCard },
+    { id: 'transactions' as NavTabId, label: 'Transactions', icon: ArrowRightLeft },
+    { id: 'payment' as NavTabId, label: 'Payment', icon: Send },
+    { id: 'invoicing' as NavTabId, label: 'Invoicing', icon: FileText },
+    { id: 'trading' as NavTabId, label: 'Trading', icon: TrendingUp },
+    { id: 'reports' as NavTabId, label: 'Reports', icon: BarChart3 },
+    { id: 'admin' as NavTabId, label: 'Admin', icon: ShieldAlert },
   ];
 
-  const adminNav = [
-    { id: 'admin-overview', label: 'System Overview', icon: Activity },
-    { id: 'admin-customers', label: 'Customers', icon: Users },
-    { id: 'admin-accounts', label: 'Account Controls', icon: CreditCard },
-    { id: 'admin-transactions', label: 'Global Transactions', icon: History },
-    { id: 'admin-audit', label: 'Audit Trail', icon: ShieldAlert },
+  const balances = [
+    { flag: '🇺🇸', amount: '100,050.75', currency: 'USD' },
+    { flag: '🇪🇺', amount: '2310.40', currency: 'EUR' },
+    { flag: '🇬🇧', amount: '9455.50', currency: 'GBP' },
+    { flag: '🇮🇳', amount: '75,000.00', currency: 'INR' },
   ];
 
-  const handleSelect = (tabId: string) => {
-    onSelectTab(tabId);
+  const handleSelect = (tab: NavTabId) => {
+    onSelectTab(tab);
     onCloseMobile();
   };
 
   return (
     <>
       {/* Mobile backdrop */}
-      {isOpen && (
+      {isOpenMobile && (
         <div
           onClick={onCloseMobile}
-          className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
         />
       )}
 
       <aside
-        className={`fixed lg:static top-0 bottom-0 left-0 z-40 w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between p-4 transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        className={`fixed lg:static top-0 bottom-0 left-0 z-50 w-64 bg-[#F8FAFC] border-r border-slate-200/80 flex flex-col justify-between py-6 px-4 transition-transform duration-300 ease-in-out ${
+          isOpenMobile ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-        <div className="space-y-6 pt-12 lg:pt-2">
-          {/* Section: Customer or Admin Nav */}
+        <div className="space-y-7">
+          {/* Top Logo and Mobile Close */}
+          <div className="flex items-center justify-between px-2">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#2555EA] text-white font-extrabold flex items-center justify-center text-lg shadow-md shadow-blue-500/20">
+                P
+              </div>
+              <div className="lg:hidden">
+                <span className="font-bold text-slate-900 block leading-tight">FinCore Bank</span>
+                <span className="text-[11px] text-slate-400">Digital Portal</span>
+              </div>
+            </div>
+
+            <button
+              onClick={onCloseMobile}
+              className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-700"
+              aria-label="Close Sidebar"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Navigation Section */}
           <div>
-            <div className="px-3 mb-2 flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                {currentRole === 'ADMIN' ? 'Admin Controls' : 'Personal Banking'}
-              </span>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">
-                {currentRole}
+            <div className="px-2 mb-3">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                Navigation
               </span>
             </div>
 
             <nav className="space-y-1">
-              {(currentRole === 'ADMIN' ? adminNav : customerNav).map((item) => {
+              {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentTab === item.id;
 
@@ -86,38 +117,50 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab, isOpe
                   <button
                     key={item.id}
                     onClick={() => handleSelect(item.id)}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition ${
+                    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition relative group ${
                       isActive
-                        ? currentRole === 'ADMIN'
-                          ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                          : 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                        ? 'text-slate-900 font-bold bg-white/60 shadow-sm'
+                        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100/70'
                     }`}
                   >
-                    <Icon className="w-4 h-4 shrink-0" />
-                    <span>{item.label}</span>
+                    <div className="flex items-center gap-3">
+                      <Icon
+                        className={`w-4 h-4 transition ${
+                          isActive ? 'text-[#2555EA] stroke-[2.2px]' : 'text-slate-400 group-hover:text-slate-700'
+                        }`}
+                      />
+                      <span>{item.label}</span>
+                    </div>
+
+                    {/* Active vertical blue bar indicator on right edge */}
+                    {isActive && (
+                      <span className="w-1 h-5 rounded-full bg-[#2555EA] absolute right-0" />
+                    )}
                   </button>
                 );
               })}
             </nav>
           </div>
-
-          {/* Quick Info Box */}
-          <div className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700/50 text-xs">
-            <div className="flex items-center gap-2 text-slate-300 font-semibold mb-1">
-              <DatabaseZap className="w-4 h-4 text-emerald-400" />
-              <span>Double-Entry Ledger</span>
-            </div>
-            <p className="text-[11px] text-slate-400 leading-relaxed">
-              Every transaction generates balanced debit & credit movements with row-level locks.
-            </p>
-          </div>
         </div>
 
-        {/* Bottom system status */}
-        <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-500">
-          <span>FinCore v1.0.0</span>
-          <span className="text-emerald-400 font-medium">● Connected</span>
+        {/* Balances Section at Bottom */}
+        <div className="pt-6 border-t border-slate-200/60 px-2 space-y-3">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">
+            Balances
+          </span>
+
+          <div className="space-y-2">
+            {balances.map((b) => (
+              <div
+                key={b.currency}
+                className="flex items-center gap-2.5 text-xs font-semibold text-slate-700 hover:text-slate-900 transition cursor-pointer"
+              >
+                <span className="text-sm">{b.flag}</span>
+                <span className="font-mono text-[11px]">{b.amount}</span>
+                <span className="text-[10px] text-slate-400 font-bold">{b.currency}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </aside>
     </>

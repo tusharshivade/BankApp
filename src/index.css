@@ -2,19 +2,17 @@
 
 @layer base {
   :root {
-    --bg-page: #f1f4f9;
+    --bg-main: #ffffff;
+    --bg-sidebar: #f8fafc;
     --primary-blue: #2555ea;
-    --primary-dark: #1e40af;
     --text-primary: #0f172a;
-    --text-secondary: #64748b;
-    --card-bg: #ffffff;
-    --border-light: #e2e8f0;
+    --text-muted: #64748b;
   }
 
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #eef2f6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #ffffff;
     color: #0f172a;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
@@ -22,20 +20,20 @@
   }
 }
 
-/* Custom soft scrollbar */
+/* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #e2e8f0;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #cbd5e1;
 }
 
 /* Smooth transitions */
