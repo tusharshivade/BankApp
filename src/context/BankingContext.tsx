@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
-import { Account, AuditLog, Transaction, User, UserRole } from '../types/banking';
-import { INITIAL_ACCOUNTS, INITIAL_AUDIT_LOGS, INITIAL_TRANSACTIONS, INITIAL_USERS } from '../services/mockData';
+import type { Account, AuditLog, Contact, Transaction, User, UserRole } from '../types/banking';
+import { INITIAL_ACCOUNTS, INITIAL_AUDIT_LOGS, INITIAL_CONTACTS, INITIAL_TRANSACTIONS, INITIAL_USERS } from '../services/mockData';
 
 interface Toast {
   id: string;
@@ -12,11 +12,18 @@ interface BankingContextType {
   currentUser: User;
   users: User[];
   accounts: Account[];
+  contacts: Contact[];
   transactions: Transaction[];
   auditLogs: AuditLog[];
   toasts: Toast[];
   currentRole: UserRole;
+  currencySymbol: string;
+  isBalanceHidden: boolean;
+  selectedContact: Contact;
   selectedAccountId: number;
+  toggleCurrency: () => void;
+  toggleBalanceHidden: () => void;
+  setSelectedContact: (contact: Contact) => void;
   setSelectedAccountId: (id: number) => void;
   switchRole: (role: UserRole) => void;
   showToast: (message: string, type?: 'success' | 'error' | 'info') => void;
@@ -33,22 +40,34 @@ const BankingContext = createContext<BankingContextType | undefined>(undefined);
 
 export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [users, setUsers] = useState<User[]>(INITIAL_USERS);
-  const [currentUserId, setCurrentUserId] = useState<number>(2); // Aarav Sharma by default
+  const [currentUserId, setCurrentUserId] = useState<number>(2); // Emilia Smith by default
   const [accounts, setAccounts] = useState<Account[]>(INITIAL_ACCOUNTS);
+  const [contacts] = useState<Contact[]>(INITIAL_CONTACTS);
   const [transactions, setTransactions] = useState<Transaction[]>(INITIAL_TRANSACTIONS);
   const [auditLogs, setAuditLogs] = useState<AuditLog[]>(INITIAL_AUDIT_LOGS);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [selectedAccountId, setSelectedAccountId] = useState<number>(1);
+  const [currencySymbol, setCurrencySymbol] = useState<string>('$');
+  const [isBalanceHidden, setIsBalanceHidden] = useState<boolean>(false);
+  const [selectedContact, setSelectedContact] = useState<Contact>(INITIAL_CONTACTS[0]);
 
   const currentUser = users.find((u) => u.id === currentUserId) || users[1];
   const currentRole = currentUser.role;
+
+  const toggleCurrency = () => {
+    setCurrencySymbol((prev) => (prev === '$' ? '₹' : '$'));
+  };
+
+  const toggleBalanceHidden = () => {
+    setIsBalanceHidden((prev) => !prev);
+  };
 
   const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
     const id = Math.random().toString(36).substring(2, 9);
     setToasts((prev) => [...prev, { id, type, message }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 4500);
+    }, 4000);
   };
 
   const removeToast = (id: string) => {
@@ -58,10 +77,10 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const switchRole = (role: UserRole) => {
     if (role === 'ADMIN') {
       setCurrentUserId(1); // FinCore Admin
-      showToast('Switched to Administrator view', 'info');
+      showToast('Switched to Administrator Governance Console', 'info');
     } else {
-      setCurrentUserId(2); // Aarav Sharma
-      showToast('Switched to Customer view (Aarav Sharma)', 'info');
+      setCurrentUserId(2); // Emilia Smith
+      showToast('Switched to Customer App (Emilia Smith)', 'info');
     }
   };
 
@@ -97,12 +116,14 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       id: transactions.length + 1,
       referenceNumber: refNum,
       transactionType: 'DEPOSIT',
+      category: 'transfer',
       status: 'SUCCESS',
       sourceAccountId: null,
       destinationAccountId: accountId,
       destinationAccountNumber: targetAccount.accountNumber,
       amount,
-      description: description || 'Simulated Cash Deposit',
+      description: description || 'Add Money / Deposit',
+      subTitle: 'Online Deposit',
       createdAt: now,
       completedAt: now,
       ledgerEntries: [
@@ -123,7 +144,6 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     );
     setTransactions((prev) => [newTx, ...prev]);
 
-    // Audit log
     setAuditLogs((prev) => [
       {
         id: prev.length + 1,
@@ -133,13 +153,13 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         resourceType: 'ACCOUNT',
         resourceId: targetAccount.accountNumber,
         ipAddress: '127.0.0.1',
-        details: `Simulated deposit of ₹${amount.toLocaleString('en-IN')} posted to account.`,
+        details: `Deposit of ${currencySymbol}${amount.toLocaleString()} posted to account.`,
         createdAt: now,
       },
       ...prev,
     ]);
 
-    showToast(`Successfully deposited ₹${amount.toLocaleString('en-IN')} to ${targetAccount.accountNumber}`);
+    showToast(`Added ${currencySymbol}${amount.toLocaleString()} to wallet`);
     return true;
   };
 
@@ -161,7 +181,7 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
 
     if (sourceAccount.balance < amount) {
-      showToast(`Insufficient funds! Available balance is ₹${sourceAccount.balance.toLocaleString('en-IN')}`, 'error');
+      showToast(`Insufficient funds! Available balance is ${currencySymbol}${sourceAccount.balance.toLocaleString()}`, 'error');
       return false;
     }
 
@@ -173,12 +193,14 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       id: transactions.length + 1,
       referenceNumber: refNum,
       transactionType: 'WITHDRAWAL',
+      category: 'other',
       status: 'SUCCESS',
       sourceAccountId: accountId,
       sourceAccountNumber: sourceAccount.accountNumber,
       destinationAccountId: null,
       amount,
-      description: description || 'Simulated Cash Withdrawal',
+      description: description || 'Withdrawal',
+      subTitle: 'ATM / Cash',
       createdAt: now,
       completedAt: now,
       ledgerEntries: [
@@ -208,13 +230,13 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         resourceType: 'ACCOUNT',
         resourceId: sourceAccount.accountNumber,
         ipAddress: '127.0.0.1',
-        details: `Simulated withdrawal of ₹${amount.toLocaleString('en-IN')} posted to account.`,
+        details: `Withdrawal of ${currencySymbol}${amount.toLocaleString()} from account.`,
         createdAt: now,
       },
       ...prev,
     ]);
 
-    showToast(`Successfully withdrew ₹${amount.toLocaleString('en-IN')} from ${sourceAccount.accountNumber}`);
+    showToast(`Withdrew ${currencySymbol}${amount.toLocaleString()} successfully`);
     return true;
   };
 
@@ -240,31 +262,13 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return false;
     }
 
-    const cleanDestNumber = destAccountNumber.trim().toUpperCase();
-    if (sourceAccount.accountNumber === cleanDestNumber) {
-      showToast('Cannot transfer funds to the same account', 'error');
-      return false;
-    }
-
-    const destAccount = accounts.find((a) => a.accountNumber === cleanDestNumber);
-    if (!destAccount) {
-      showToast(`Recipient account ${cleanDestNumber} does not exist in the system`, 'error');
-      return false;
-    }
-
-    if (destAccount.status === 'SUSPENDED') {
-      showToast(`Recipient account ${cleanDestNumber} is suspended and cannot receive funds`, 'error');
-      return false;
-    }
-
     if (sourceAccount.balance < amount) {
-      showToast(`Insufficient funds! Available balance is ₹${sourceAccount.balance.toLocaleString('en-IN')}`, 'error');
+      showToast(`Insufficient funds! Available: ${currencySymbol}${sourceAccount.balance.toLocaleString()}`, 'error');
       return false;
     }
 
     const now = new Date().toISOString();
     const sourceNewBal = sourceAccount.balance - amount;
-    const destNewBal = destAccount.balance + amount;
     const refNum = `TXN-${Date.now().toString().slice(-8)}`;
     const txId = transactions.length + 1;
 
@@ -272,13 +276,15 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       id: txId,
       referenceNumber: refNum,
       transactionType: 'TRANSFER',
+      category: 'transfer',
       status: 'SUCCESS',
       sourceAccountId,
       sourceAccountNumber: sourceAccount.accountNumber,
-      destinationAccountId: destAccount.id,
-      destinationAccountNumber: destAccount.accountNumber,
+      destinationAccountId: 3,
+      destinationAccountNumber: destAccountNumber,
       amount,
-      description: description || 'Simulated Inter-Account Transfer',
+      description: description || 'Payment Transfer',
+      subTitle: selectedContact?.name ? `To ${selectedContact.name}` : 'Direct Transfer',
       idempotencyKey: `IDEM-${Date.now()}`,
       createdAt: now,
       completedAt: now,
@@ -292,24 +298,11 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
           balanceAfter: sourceNewBal,
           createdAt: now,
         },
-        {
-          id: Date.now() + 1,
-          transactionId: txId,
-          accountId: destAccount.id,
-          entryType: 'CREDIT',
-          amount,
-          balanceAfter: destNewBal,
-          createdAt: now,
-        },
       ],
     };
 
     setAccounts((prev) =>
-      prev.map((acc) => {
-        if (acc.id === sourceAccountId) return { ...acc, balance: sourceNewBal, updatedAt: now };
-        if (acc.id === destAccount.id) return { ...acc, balance: destNewBal, updatedAt: now };
-        return acc;
-      })
+      prev.map((acc) => (acc.id === sourceAccountId ? { ...acc, balance: sourceNewBal, updatedAt: now } : acc))
     );
     setTransactions((prev) => [newTx, ...prev]);
 
@@ -322,13 +315,13 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         resourceType: 'TRANSACTION',
         resourceId: refNum,
         ipAddress: '127.0.0.1',
-        details: `Simulated transfer of ₹${amount.toLocaleString('en-IN')} from ${sourceAccount.accountNumber} to ${destAccount.accountNumber}.`,
+        details: `Payment of ${currencySymbol}${amount.toLocaleString()} to ${destAccountNumber}.`,
         createdAt: now,
       },
       ...prev,
     ]);
 
-    showToast(`Transferred ₹${amount.toLocaleString('en-IN')} to ${cleanDestNumber}`);
+    showToast(`Payment of ${currencySymbol}${amount.toLocaleString()} sent successfully!`);
     return true;
   };
 
@@ -349,7 +342,7 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         resourceType: 'ACCOUNT',
         resourceId: acc.accountNumber,
         ipAddress: '127.0.0.1',
-        details: `Account status updated to ${status}. Reason: ${reason || 'Administrative action'}`,
+        details: `Account status set to ${status}. Reason: ${reason}`,
         createdAt: new Date().toISOString(),
       },
       ...prev,
@@ -366,7 +359,7 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       (t) => t.sourceAccountId === accountId || t.destinationAccountId === accountId
     );
 
-    const headers = ['Reference Number', 'Date', 'Type', 'Description', 'Debit/Credit', 'Amount (INR)', 'Status'];
+    const headers = ['Reference Number', 'Date', 'Type', 'Description', 'Debit/Credit', `Amount (${currencySymbol})`, 'Status'];
     const rows = relevantTxs.map((t) => {
       const isDebit = t.sourceAccountId === accountId;
       return [
@@ -384,12 +377,12 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `statement_${acc.accountNumber}_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `statement_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 
-    showToast(`Statement for ${acc.accountNumber} downloaded successfully`);
+    showToast(`Statement downloaded successfully`);
   };
 
   return (
@@ -398,11 +391,18 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         currentUser,
         users,
         accounts,
+        contacts,
         transactions,
         auditLogs,
         toasts,
         currentRole,
+        currencySymbol,
+        isBalanceHidden,
+        selectedContact,
         selectedAccountId,
+        toggleCurrency,
+        toggleBalanceHidden,
+        setSelectedContact,
         setSelectedAccountId,
         switchRole,
         showToast,

@@ -12,7 +12,16 @@ export interface User {
   email: string;
   role: UserRole;
   status: UserStatus;
+  avatarUrl?: string;
   createdAt: string;
+}
+
+export interface Contact {
+  id: string;
+  name: string;
+  accountNumber: string;
+  avatarUrl: string;
+  initials: string;
 }
 
 export interface Account {
@@ -41,11 +50,13 @@ export interface Transaction {
   id: number;
   referenceNumber: string;
   transactionType: TransactionType;
+  category?: 'drinks' | 'market' | 'transfer' | 'salary' | 'bills' | 'other';
   status: TransactionStatus;
   sourceAccountId: number | null;
   destinationAccountId: number | null;
   amount: number;
   description: string;
+  subTitle?: string;
   idempotencyKey?: string;
   createdAt: string;
   completedAt?: string;
