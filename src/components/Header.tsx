@@ -19,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({
   const { currentUser } = useBanking();
 
   return (
-    <header className="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-4 sm:px-8 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between transition-colors duration-200">
+    <header className="relative z-10 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-4 sm:px-8 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between transition-colors duration-200">
       {/* Left: Mobile hamburger & Page Title */}
       <div className="flex items-center gap-3.5">
         <button

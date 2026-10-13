@@ -12,6 +12,7 @@ import {
   X,
 } from 'lucide-react';
 import { useBanking } from '../context/BankingContext';
+import { BankLogo } from './BankLogo';
 
 export type NavTabId =
   | 'dashboard'
@@ -74,19 +75,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed lg:static top-0 bottom-0 left-0 z-50 w-64 bg-[#F8FAFC] dark:bg-slate-900 border-r border-slate-200/80 dark:border-slate-800 flex flex-col justify-between py-6 px-4 transition-all duration-300 ease-in-out ${
-          isOpenMobile ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'
+        className={`w-64 shrink-0 bg-[#F8FAFC] dark:bg-slate-900 border-r border-slate-200/80 dark:border-slate-800 flex flex-col justify-between py-6 px-4 transition-all duration-300 ease-in-out ${
+          isOpenMobile
+            ? 'fixed top-0 bottom-0 left-0 z-50 translate-x-0 shadow-2xl'
+            : 'hidden lg:flex static translate-x-0'
         }`}
       >
         <div className="space-y-7">
           {/* Top Logo and Mobile Close */}
           <div className="flex items-center justify-between px-2">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#2555EA] text-white font-extrabold flex items-center justify-center text-lg shadow-md shadow-blue-500/20">
-                P
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 text-white flex items-center justify-center p-2 shadow-lg shadow-blue-500/25 ring-1 ring-blue-400/20 group hover:scale-105 transition-transform duration-200">
+                <BankLogo className="w-6 h-6 text-white" />
               </div>
               <div>
-                <span className="font-bold text-slate-900 dark:text-white block leading-tight">FinCore Bank</span>
+                <span className="font-bold text-slate-900 dark:text-white block leading-tight text-sm tracking-tight">FinCore Bank</span>
                 <span className="text-[11px] text-slate-400 dark:text-slate-500">Digital Portal</span>
               </div>
             </div>

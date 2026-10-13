@@ -81,7 +81,7 @@ const FinCoreAppLayout: React.FC = () => {
         />
 
         {/* Dynamic View Body */}
-        <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-10 overflow-y-auto bg-slate-50/50 dark:bg-slate-950/70 transition-colors duration-200">
+        <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-10 bg-slate-50/50 dark:bg-slate-950/70 transition-colors duration-200">
           {currentTab === 'reports' && <ReportsView />}
 
           {currentTab === 'dashboard' && (

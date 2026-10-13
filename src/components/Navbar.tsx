@@ -1,7 +1,8 @@
 import React from 'react';
 import { useBanking } from '../context/BankingContext';
-import { ShieldCheck, User, Menu, X, Landmark } from 'lucide-react';
+import { ShieldCheck, User, Menu, X } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
+import { BankLogo } from './BankLogo';
 
 interface NavbarProps {
   onToggleSidebar: () => void;
@@ -12,7 +13,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
   const { currentUser, currentRole, switchRole } = useBanking();
 
   return (
-    <header className="sticky top-0 z-30 bg-slate-900/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-800 dark:border-slate-800/80 px-4 sm:px-8 py-3.5 flex items-center justify-between transition-colors duration-200">
+    <header className="relative z-10 bg-slate-900/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-800 dark:border-slate-800/80 px-4 sm:px-8 py-3.5 flex items-center justify-between transition-colors duration-200">
       {/* Left: Mobile hamburger & Logo */}
       <div className="flex items-center gap-3">
         <button
@@ -24,8 +25,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
         </button>
 
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-600/30">
-            <Landmark className="w-5 h-5 text-white" />
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center p-1.5 shadow-lg shadow-blue-600/30">
+            <BankLogo className="w-5 h-5 text-white" />
           </div>
           <div>
             <span className="font-extrabold text-base tracking-tight text-white block leading-none">
