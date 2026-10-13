@@ -1,6 +1,7 @@
 import React from 'react';
 import { useBanking } from '../context/BankingContext';
-import { ShieldCheck, User, Users, Menu, X, Landmark } from 'lucide-react';
+import { ShieldCheck, User, Menu, X, Landmark } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
 
 interface NavbarProps {
   onToggleSidebar: () => void;
@@ -11,7 +12,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
   const { currentUser, currentRole, switchRole } = useBanking();
 
   return (
-    <header className="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 sm:px-8 py-3.5 flex items-center justify-between">
+    <header className="sticky top-0 z-30 bg-slate-900/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-800 dark:border-slate-800/80 px-4 sm:px-8 py-3.5 flex items-center justify-between transition-colors duration-200">
       {/* Left: Mobile hamburger & Logo */}
       <div className="flex items-center gap-3">
         <button
@@ -38,16 +39,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
       </div>
 
       {/* Center: Environment badge */}
-      <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-xs">
+      <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 dark:bg-slate-900 border border-slate-700 text-xs">
         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
         <span className="text-slate-300 font-medium">Educational Simulation Core</span>
         <span className="text-slate-500 font-mono text-[10px]">INR v1.0</span>
       </div>
 
-      {/* Right: Quick Role Switcher & User Profile */}
+      {/* Right: Quick Role Switcher, Dark Mode Toggle & User Profile */}
       <div className="flex items-center gap-3">
+        {/* Dark Mode Toggle on Navbar */}
+        <ThemeToggle />
+
         {/* Role toggle button */}
-        <div className="flex items-center bg-slate-800/90 p-1 rounded-xl border border-slate-700/80 text-xs">
+        <div className="flex items-center bg-slate-800/90 dark:bg-slate-900 p-1 rounded-xl border border-slate-700/80 text-xs">
           <button
             onClick={() => switchRole('CUSTOMER')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition ${

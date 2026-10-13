@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BankingProvider, useBanking } from './context/BankingContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { Sidebar, type NavTabId } from './components/Sidebar';
 import { Header } from './components/Header';
 import { ToastContainer } from './components/ToastContainer';
@@ -57,7 +58,7 @@ const FinCoreAppLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex font-sans antialiased">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex font-sans antialiased transition-colors duration-200">
       {/* Toast Notifications */}
       <ToastContainer />
 
@@ -70,7 +71,7 @@ const FinCoreAppLayout: React.FC = () => {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 bg-white min-h-screen">
+      <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-slate-950 min-h-screen transition-colors duration-200">
         {/* Top Header */}
         <Header
           title={getPageTitle(currentTab)}
@@ -80,7 +81,7 @@ const FinCoreAppLayout: React.FC = () => {
         />
 
         {/* Dynamic View Body */}
-        <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-10 overflow-y-auto">
+        <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-10 overflow-y-auto bg-slate-50/50 dark:bg-slate-950/70 transition-colors duration-200">
           {currentTab === 'reports' && <ReportsView />}
 
           {currentTab === 'dashboard' && (
@@ -127,8 +128,10 @@ const FinCoreAppLayout: React.FC = () => {
 
 export default function App() {
   return (
-    <BankingProvider>
-      <FinCoreAppLayout />
-    </BankingProvider>
+    <ThemeProvider>
+      <BankingProvider>
+        <FinCoreAppLayout />
+      </BankingProvider>
+    </ThemeProvider>
   );
 }

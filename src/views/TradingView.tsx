@@ -13,25 +13,25 @@ export const TradingView: React.FC = () => {
   return (
     <div className="space-y-6 max-w-5xl">
       <div>
-        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <TrendingUp className="w-5 h-5 text-[#2555EA]" />
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <TrendingUp className="w-5 h-5 text-[#2555EA] dark:text-blue-400" />
           Global Markets & Forex
         </h2>
-        <p className="text-xs text-slate-400 font-medium">Real-time indicative exchange rates</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">Real-time indicative exchange rates</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {forexPairs.map((fx) => (
-          <div key={fx.pair} className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm space-y-3">
+          <div key={fx.pair} className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3 transition-colors">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-slate-900">{fx.pair}</span>
+              <span className="font-bold text-slate-900 dark:text-white">{fx.pair}</span>
               <span className={`font-bold flex items-center ${fx.isUp ? 'text-emerald-500' : 'text-rose-500'}`}>
                 {fx.isUp ? <ArrowUpRight className="w-3.5 h-3.5 mr-0.5" /> : <ArrowDownRight className="w-3.5 h-3.5 mr-0.5" />}
                 {fx.change}
               </span>
             </div>
 
-            <div className="text-2xl font-black text-slate-900 tracking-tight font-mono">{fx.rate}</div>
+            <div className="text-2xl font-black text-slate-900 dark:text-white tracking-tight font-mono">{fx.rate}</div>
 
             <div className="pt-2">
               <Sparkline data={fx.sparkline} color={fx.isUp ? '#10B981' : '#F43F5E'} width={180} />

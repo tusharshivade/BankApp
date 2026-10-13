@@ -1,6 +1,6 @@
 import React from 'react';
 import { useBanking } from '../context/BankingContext';
-import { CreditCard, ShieldCheck } from 'lucide-react';
+import { CreditCard } from 'lucide-react';
 
 export const CardsView: React.FC = () => {
   const { accounts, currencySymbol, currentUser } = useBanking();
@@ -9,11 +9,11 @@ export const CardsView: React.FC = () => {
   return (
     <div className="space-y-6 max-w-5xl">
       <div>
-        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <CreditCard className="w-5 h-5 text-[#2555EA]" />
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <CreditCard className="w-5 h-5 text-[#2555EA] dark:text-blue-400" />
           Payment Cards & Virtual Accounts
         </h2>
-        <p className="text-xs text-slate-400 font-medium">Manage your active debit cards and limits</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">Manage your active debit cards and limits</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -23,7 +23,7 @@ export const CardsView: React.FC = () => {
             className={`rounded-3xl p-6 shadow-md relative overflow-hidden transition ${
               idx === 0
                 ? 'bg-gradient-to-tr from-[#1E40AF] to-[#2555EA] text-white shadow-blue-500/20'
-                : 'bg-gradient-to-tr from-slate-800 to-slate-900 text-white shadow-slate-900/20'
+                : 'bg-gradient-to-tr from-slate-800 to-slate-900 text-white shadow-slate-900/20 border border-slate-700/50'
             }`}
           >
             <div className="flex items-center justify-between mb-6">

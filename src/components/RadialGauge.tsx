@@ -29,7 +29,7 @@ export const RadialGauge: React.FC<RadialGaugeProps> = ({
         <path
           d={`M ${center - rOuter} ${center * 0.95} A ${rOuter} ${rOuter} 0 0 1 ${center + rOuter} ${center * 0.95}`}
           fill="none"
-          stroke="#f1f5f9"
+          className="stroke-slate-100 dark:stroke-slate-800 transition-colors"
           strokeWidth={strokeWidth}
           strokeLinecap="round"
         />
@@ -48,7 +48,7 @@ export const RadialGauge: React.FC<RadialGaugeProps> = ({
         <path
           d={`M ${center - rMiddle} ${center * 0.95} A ${rMiddle} ${rMiddle} 0 0 1 ${center + rMiddle} ${center * 0.95}`}
           fill="none"
-          stroke="#f1f5f9"
+          className="stroke-slate-100 dark:stroke-slate-800 transition-colors"
           strokeWidth={strokeWidth}
           strokeLinecap="round"
         />
@@ -67,7 +67,7 @@ export const RadialGauge: React.FC<RadialGaugeProps> = ({
         <path
           d={`M ${center - rInner} ${center * 0.95} A ${rInner} ${rInner} 0 0 1 ${center + rInner} ${center * 0.95}`}
           fill="none"
-          stroke="#f1f5f9"
+          className="stroke-slate-100 dark:stroke-slate-800 transition-colors"
           strokeWidth={strokeWidth}
           strokeLinecap="round"
         />
@@ -85,10 +85,10 @@ export const RadialGauge: React.FC<RadialGaugeProps> = ({
 
       {/* Center Amount Text */}
       <div className="absolute bottom-2 text-center pointer-events-none">
-        <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight block">
+        <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight block">
           {amount}
         </span>
-        <span className="text-xs text-slate-400 font-medium block mt-0.5">
+        <span className="text-xs text-slate-400 dark:text-slate-500 font-medium block mt-0.5">
           {subText}
         </span>
       </div>

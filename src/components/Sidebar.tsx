@@ -69,12 +69,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {isOpenMobile && (
         <div
           onClick={onCloseMobile}
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
         />
       )}
 
       <aside
-        className={`fixed lg:static top-0 bottom-0 left-0 z-50 w-64 bg-[#F8FAFC] border-r border-slate-200/80 flex flex-col justify-between py-6 px-4 transition-transform duration-300 ease-in-out ${
+        className={`fixed lg:static top-0 bottom-0 left-0 z-50 w-64 bg-[#F8FAFC] dark:bg-slate-900 border-r border-slate-200/80 dark:border-slate-800 flex flex-col justify-between py-6 px-4 transition-all duration-300 ease-in-out ${
           isOpenMobile ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'
         }`}
       >
@@ -85,15 +85,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className="w-10 h-10 rounded-full bg-[#2555EA] text-white font-extrabold flex items-center justify-center text-lg shadow-md shadow-blue-500/20">
                 P
               </div>
-              <div className="lg:hidden">
-                <span className="font-bold text-slate-900 block leading-tight">FinCore Bank</span>
-                <span className="text-[11px] text-slate-400">Digital Portal</span>
+              <div>
+                <span className="font-bold text-slate-900 dark:text-white block leading-tight">FinCore Bank</span>
+                <span className="text-[11px] text-slate-400 dark:text-slate-500">Digital Portal</span>
               </div>
             </div>
 
             <button
               onClick={onCloseMobile}
-              className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-700"
+              className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition"
               aria-label="Close Sidebar"
             >
               <X className="w-5 h-5" />
@@ -103,7 +103,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Navigation Section */}
           <div>
             <div className="px-2 mb-3">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                 Navigation
               </span>
             </div>
@@ -119,14 +119,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     onClick={() => handleSelect(item.id)}
                     className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition relative group ${
                       isActive
-                        ? 'text-slate-900 font-bold bg-white/60 shadow-sm'
-                        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100/70'
+                        ? 'text-slate-900 dark:text-white font-bold bg-white/80 dark:bg-slate-800 shadow-sm'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/50'
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <Icon
                         className={`w-4 h-4 transition ${
-                          isActive ? 'text-[#2555EA] stroke-[2.2px]' : 'text-slate-400 group-hover:text-slate-700'
+                          isActive
+                            ? 'text-[#2555EA] dark:text-blue-400 stroke-[2.2px]'
+                            : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300'
                         }`}
                       />
                       <span>{item.label}</span>
@@ -134,7 +136,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                     {/* Active vertical blue bar indicator on right edge */}
                     {isActive && (
-                      <span className="w-1 h-5 rounded-full bg-[#2555EA] absolute right-0" />
+                      <span className="w-1 h-5 rounded-full bg-[#2555EA] dark:bg-blue-500 absolute right-0" />
                     )}
                   </button>
                 );
@@ -144,8 +146,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Balances Section at Bottom */}
-        <div className="pt-6 border-t border-slate-200/60 px-2 space-y-3">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block">
+        <div className="pt-6 border-t border-slate-200/60 dark:border-slate-800 px-2 space-y-3">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
             Balances
           </span>
 
@@ -153,11 +155,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {balances.map((b) => (
               <div
                 key={b.currency}
-                className="flex items-center gap-2.5 text-xs font-semibold text-slate-700 hover:text-slate-900 transition cursor-pointer"
+                className="flex items-center gap-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition cursor-pointer"
               >
                 <span className="text-sm">{b.flag}</span>
                 <span className="font-mono text-[11px]">{b.amount}</span>
-                <span className="text-[10px] text-slate-400 font-bold">{b.currency}</span>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold">{b.currency}</span>
               </div>
             ))}
           </div>
