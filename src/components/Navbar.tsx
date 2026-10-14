@@ -13,7 +13,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
   const { currentUser, currentRole, switchRole } = useBanking();
 
   return (
-    <header className="relative z-10 bg-slate-900/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-800 dark:border-slate-800/80 px-4 sm:px-8 py-3.5 flex items-center justify-between transition-colors duration-200">
+    <header className="sticky top-0 z-30 bg-slate-900/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-800 dark:border-slate-800/80 px-4 sm:px-8 py-3.5 flex items-center justify-between transition-colors duration-200">
       {/* Left: Mobile hamburger & Logo */}
       <div className="flex items-center gap-3">
         <button

@@ -80,8 +80,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <aside
         className={`w-64 shrink-0 bg-[#F8FAFC] dark:bg-slate-900 border-r border-slate-200/80 dark:border-slate-800 flex flex-col justify-between py-6 px-4 transition-all duration-300 ease-in-out ${
           isOpenMobile
-            ? 'fixed top-0 bottom-0 left-0 z-50 translate-x-0 shadow-2xl'
-            : 'hidden lg:flex static translate-x-0'
+            ? 'fixed top-0 bottom-0 left-0 z-50 translate-x-0 shadow-2xl overflow-y-auto'
+            : 'hidden lg:flex lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto translate-x-0 z-20'
         }`}
       >
         <div className="space-y-7">
@@ -159,7 +159,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Balances Section at Bottom */}
-        <div className="pt-6 border-t border-slate-200/60 dark:border-slate-800 px-2 space-y-3">
+        <div className="pt-6 border-t border-slate-200/60 dark:border-slate-800 px-2 space-y-3 shrink-0">
           <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
             Balances
           </span>
