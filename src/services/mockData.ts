@@ -1,4 +1,4 @@
-import type { Account, AuditLog, Contact, Transaction, User } from '../types/banking';
+import type { Account, AuditLog, Contact, Loan, LoanBranch, Transaction, User } from '../types/banking';
 
 export const INITIAL_CONTACTS: Contact[] = [
   {
@@ -241,3 +241,78 @@ export const MONTHLY_CHART_DATA = [
   { month: 'Sep', deposits: 8500, withdrawals: 3900 },
   { month: 'Oct', deposits: 9200, withdrawals: 1800 },
 ];
+
+export const BRANCH_LIST: LoanBranch[] = [
+  {
+    id: 'br-01',
+    name: 'Metro Flagship Branch',
+    code: 'FCB-BR0101',
+    city: 'New York (Downtown)',
+    address: '450 Grand Avenue, Financial District, NY 10005',
+    manager: 'Robert Vance (Chief Loan Officer)',
+    phone: '+1 (800) 555-0101',
+    timing: 'Mon - Fri: 9:00 AM - 5:00 PM',
+    badge: 'Flagship Center',
+  },
+  {
+    id: 'br-02',
+    name: 'Silicon Tech Park Branch',
+    code: 'FCB-BR0204',
+    city: 'San Francisco (SOMA)',
+    address: '1200 Innovation Parkway, Suite 400, CA 94107',
+    manager: 'Sarah Chen (Senior Credit Advisor)',
+    phone: '+1 (800) 555-0204',
+    timing: 'Mon - Fri: 9:00 AM - 6:00 PM',
+    badge: 'Express Sanctions',
+  },
+  {
+    id: 'br-03',
+    name: 'Central Commercial Hub Branch',
+    code: 'FCB-BR0309',
+    city: 'Chicago (The Loop)',
+    address: '88 Market Center Boulevard, IL 60603',
+    manager: 'David Miller (Commercial Lending Head)',
+    phone: '+1 (800) 555-0309',
+    timing: 'Mon - Sat: 9:30 AM - 4:30 PM',
+    badge: 'Business & Retail',
+  },
+  {
+    id: 'br-04',
+    name: 'West Coast Regional Branch',
+    code: 'FCB-BR0412',
+    city: 'Los Angeles (Wilshire)',
+    address: '500 Sunset Boulevard, Suite 100, CA 90028',
+    manager: 'Elena Rostova (Retail Banking VP)',
+    phone: '+1 (800) 555-0412',
+    timing: 'Mon - Fri: 9:00 AM - 5:00 PM',
+    badge: 'Priority Desk',
+  },
+];
+
+export const INITIAL_LOANS: Loan[] = [
+  {
+    id: 'ln-01',
+    loanNumber: 'LN-2026-8492',
+    userId: 2, // Emilia Smith
+    accountId: 1, // Savings Account FCB1001003001
+    accountNumber: 'FCB1001003001',
+    branchId: 'br-01',
+    branchName: 'Metro Flagship Branch',
+    branchCode: 'FCB-BR0101',
+    loanType: 'PERSONAL',
+    principalAmount: 15000,
+    interestRate: 10.0, // Fixed 10% interest rate
+    tenureMonths: 24,
+    monthlyEmi: 692.16,
+    totalInterest: 1611.84,
+    totalRepayment: 16611.84,
+    remainingBalance: 12740.0,
+    emisPaid: 4,
+    totalEmis: 24,
+    status: 'ACTIVE',
+    startDate: '2026-06-15T10:00:00Z',
+    nextEmiDate: '2026-11-05T00:00:00Z',
+    purpose: 'Branch Personal Term Loan (Renovation)',
+  },
+];
+

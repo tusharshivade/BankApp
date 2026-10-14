@@ -86,3 +86,44 @@ export interface AdminMetrics {
   activeAccountsCount: number;
   suspendedAccountsCount: number;
 }
+
+export type LoanStatus = 'ACTIVE' | 'PENDING_APPROVAL' | 'PAID_OFF' | 'DEFAULTED';
+export type LoanType = 'PERSONAL' | 'HOME' | 'BUSINESS' | 'EDUCATION' | 'VEHICLE';
+
+export interface LoanBranch {
+  id: string;
+  name: string;
+  code: string;
+  city: string;
+  address: string;
+  manager: string;
+  phone: string;
+  timing: string;
+  badge?: string;
+}
+
+export interface Loan {
+  id: string;
+  loanNumber: string;
+  userId: number;
+  accountId: number;
+  accountNumber?: string;
+  branchId: string;
+  branchName: string;
+  branchCode: string;
+  loanType: LoanType;
+  principalAmount: number;
+  interestRate: number; // 10.0 (%)
+  tenureMonths: number;
+  monthlyEmi: number;
+  totalInterest: number;
+  totalRepayment: number;
+  remainingBalance: number;
+  emisPaid: number;
+  totalEmis: number;
+  status: LoanStatus;
+  startDate: string;
+  nextEmiDate: string;
+  purpose: string;
+}
+

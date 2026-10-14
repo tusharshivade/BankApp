@@ -13,6 +13,7 @@ import { PaymentView } from './views/PaymentView';
 import { InvoicingView } from './views/InvoicingView';
 import { TradingView } from './views/TradingView';
 import { AdminView } from './views/AdminView';
+import { LoansView } from './views/LoansView';
 import { DepositModal } from './components/DepositModal';
 import { WithdrawModal } from './components/WithdrawModal';
 import { TransferModal } from './components/TransferModal';
@@ -42,6 +43,8 @@ const FinCoreAppLayout: React.FC = () => {
         return 'Accounts';
       case 'cards':
         return 'Cards';
+      case 'loans':
+        return 'Branch Loans & Retail Credit';
       case 'transactions':
         return 'Transactions';
       case 'payment':
@@ -102,6 +105,8 @@ const FinCoreAppLayout: React.FC = () => {
           )}
 
           {currentTab === 'cards' && <CardsView />}
+
+          {currentTab === 'loans' && <LoansView onOpenDeposit={() => setIsDepositOpen(true)} />}
 
           {currentTab === 'transactions' && (
             <TransactionsView onSelectTransaction={(tx) => setSelectedTx(tx)} />

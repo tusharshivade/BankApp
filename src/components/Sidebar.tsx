@@ -3,6 +3,7 @@ import {
   Compass,
   Wallet,
   CreditCard,
+  Landmark,
   ArrowRightLeft,
   Send,
   FileText,
@@ -18,6 +19,7 @@ export type NavTabId =
   | 'dashboard'
   | 'accounts'
   | 'cards'
+  | 'loans'
   | 'transactions'
   | 'payment'
   | 'invoicing'
@@ -44,6 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'dashboard' as NavTabId, label: 'Dashboard', icon: Compass },
     { id: 'accounts' as NavTabId, label: 'Accounts', icon: Wallet },
     { id: 'cards' as NavTabId, label: 'Cards', icon: CreditCard },
+    { id: 'loans' as NavTabId, label: 'Loans', icon: Landmark, badge: '10%' },
     { id: 'transactions' as NavTabId, label: 'Transactions', icon: ArrowRightLeft },
     { id: 'payment' as NavTabId, label: 'Payment', icon: Send },
     { id: 'invoicing' as NavTabId, label: 'Invoicing', icon: FileText },
@@ -137,10 +140,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       <span>{item.label}</span>
                     </div>
 
-                    {/* Active vertical blue bar indicator on right edge */}
-                    {isActive && (
-                      <span className="w-1 h-5 rounded-full bg-[#2555EA] dark:bg-blue-500 absolute right-0" />
-                    )}
+                    <div className="flex items-center gap-2">
+                      {item.badge && (
+                        <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-md bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                          {item.badge}
+                        </span>
+                      )}
+                      {/* Active vertical blue bar indicator on right edge */}
+                      {isActive && (
+                        <span className="w-1 h-5 rounded-full bg-[#2555EA] dark:bg-blue-500" />
+                      )}
+                    </div>
                   </button>
                 );
               })}
