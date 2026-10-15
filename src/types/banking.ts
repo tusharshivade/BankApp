@@ -14,6 +14,11 @@ export interface User {
   status: UserStatus;
   avatarUrl?: string;
   createdAt: string;
+  phone?: string;
+  panNumber?: string;
+  aadhaarNumber?: string;
+  upiId?: string;
+  city?: string;
 }
 
 export interface Contact {
@@ -22,6 +27,10 @@ export interface Contact {
   accountNumber: string;
   avatarUrl: string;
   initials: string;
+  upiId?: string;
+  bankName?: string;
+  ifsc?: string;
+  phone?: string;
 }
 
 export interface Account {
@@ -34,6 +43,9 @@ export interface Account {
   status: AccountStatus;
   createdAt: string;
   updatedAt: string;
+  ifscCode?: string;
+  branchName?: string;
+  upiId?: string;
 }
 
 export interface LedgerEntry {
@@ -63,6 +75,9 @@ export interface Transaction {
   sourceAccountNumber?: string;
   destinationAccountNumber?: string;
   ledgerEntries?: LedgerEntry[];
+  upiReference?: string;
+  transferMode?: 'UPI' | 'IMPS' | 'NEFT' | 'RTGS' | 'INTERNAL';
+  ifsc?: string;
 }
 
 export interface AuditLog {
@@ -88,7 +103,7 @@ export interface AdminMetrics {
 }
 
 export type LoanStatus = 'ACTIVE' | 'PENDING_APPROVAL' | 'PAID_OFF' | 'DEFAULTED';
-export type LoanType = 'PERSONAL' | 'HOME' | 'BUSINESS' | 'EDUCATION' | 'VEHICLE';
+export type LoanType = 'PERSONAL' | 'HOME' | 'BUSINESS' | 'EDUCATION' | 'VEHICLE' | 'GOLD';
 
 export interface LoanBranch {
   id: string;
@@ -100,6 +115,7 @@ export interface LoanBranch {
   phone: string;
   timing: string;
   badge?: string;
+  ifsc: string;
 }
 
 export interface Loan {
@@ -113,7 +129,7 @@ export interface Loan {
   branchCode: string;
   loanType: LoanType;
   principalAmount: number;
-  interestRate: number; // 10.0 (%)
+  interestRate: number; // e.g. 10.0 (%)
   tenureMonths: number;
   monthlyEmi: number;
   totalInterest: number;
@@ -127,3 +143,29 @@ export interface Loan {
   purpose: string;
 }
 
+export interface FixedDeposit {
+  id: string;
+  fdNumber: string;
+  userId: number;
+  accountId: number;
+  principalAmount: number;
+  interestRate: number; // e.g. 7.25 (%)
+  tenureMonths: number;
+  maturityAmount: number;
+  interestEarned: number;
+  startDate: string;
+  maturityDate: string;
+  status: 'ACTIVE' | 'MATURED' | 'CLOSED';
+  isTaxSaver?: boolean;
+}
+
+export interface BillPaymentItem {
+  id: string;
+  category: 'electricity' | 'mobile' | 'fastag' | 'dth' | 'gas' | 'water';
+  billerName: string;
+  consumerNumber: string;
+  amount: number;
+  dueDate: string;
+  status: 'DUE' | 'PAID';
+  iconType?: string;
+}

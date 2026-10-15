@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useBanking } from '../context/BankingContext';
 import { CreditCard, X } from 'lucide-react';
+import { formatINR } from '../utils/formatters';
 
 interface WithdrawModalProps {
   isOpen: boolean;
@@ -9,10 +10,10 @@ interface WithdrawModalProps {
 
 export const WithdrawModal: React.FC<WithdrawModalProps> = ({ isOpen, onClose }) => {
   const { accounts, withdraw, currencySymbol } = useBanking();
-  const primaryAccount = accounts[0] || { id: 1, accountNumber: '**** 4312', balance: 18500 };
+  const primaryAccount = accounts[0] || { id: 1, accountNumber: 'FCBL1001002001', balance: 185000 };
 
-  const [amount, setAmount] = useState<string>('200');
-  const [description, setDescription] = useState<string>('ATM Cash Withdrawal');
+  const [amount, setAmount] = useState<string>('2000');
+  const [description, setDescription] = useState<string>('RuPay ATM Cash Withdrawal');
 
   if (!isOpen) return null;
 
@@ -42,28 +43,42 @@ export const WithdrawModal: React.FC<WithdrawModalProps> = ({ isOpen, onClose })
             <CreditCard className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-slate-900 dark:text-white">Withdraw Funds</h3>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">ATM Cash Withdrawal</h3>
             <p className="text-xs text-slate-400 dark:text-slate-500">
-              Available: {currencySymbol}{primaryAccount.balance.toLocaleString()}
+              Available: {formatINR(primaryAccount.balance)}
             </p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Amount ({currencySymbol})</label>
+            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+              Withdrawal Amount (INR ₹)
+            </label>
             <div className="relative">
-              <span className="absolute left-4 top-3 text-lg font-bold text-slate-400 dark:text-slate-500">{currencySymbol}</span>
+              <span className="absolute left-4 top-3 text-lg font-bold text-slate-400 dark:text-slate-500">₹</span>
               <input
                 type="number"
-                step="0.01"
-                min="1"
+                step="100"
+                min="100"
                 max={primaryAccount.balance}
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 required
-                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl pl-9 pr-4 py-3 text-lg font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#2555EA]"
+                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl pl-9 pr-4 py-3 text-lg font-bold font-mono text-slate-900 dark:text-white focus:outline-none focus:border-[#2555EA]"
               />
+            </div>
+            <div className="flex gap-2 mt-2">
+              {[500, 1000, 2000, 5000].map((q) => (
+                <button
+                  key={q}
+                  type="button"
+                  onClick={() => setAmount(q.toString())}
+                  className="flex-1 py-1 text-xs rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-rose-50 dark:hover:bg-rose-900/40 hover:text-rose-600 text-slate-700 dark:text-slate-300 font-semibold transition"
+                >
+                  ₹{q.toLocaleString('en-IN')}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -89,7 +104,7 @@ export const WithdrawModal: React.FC<WithdrawModalProps> = ({ isOpen, onClose })
               type="submit"
               className="flex-1 py-3 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md transition"
             >
-              Withdraw Cash
+              Withdraw {formatINR(parseFloat(amount) || 0)}
             </button>
           </div>
         </form>

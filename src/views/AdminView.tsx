@@ -103,7 +103,7 @@ export const AdminView: React.FC = () => {
               <ArrowDownCircle className="w-4 h-4" />
             </div>
             <span className="text-xs text-slate-400 dark:text-slate-500 font-medium block">Cumulative Inflows</span>
-            <span className="text-2xl font-black text-slate-900 dark:text-white mt-1 block">{currencySymbol}{totalDeposits.toLocaleString()}</span>
+            <span className="text-2xl font-black text-slate-900 dark:text-white mt-1 block font-mono">{currencySymbol}{totalDeposits.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
           </div>
 
           <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
@@ -111,7 +111,7 @@ export const AdminView: React.FC = () => {
               <ArrowUpCircle className="w-4 h-4" />
             </div>
             <span className="text-xs text-slate-400 dark:text-slate-500 font-medium block">Cumulative Outflows</span>
-            <span className="text-2xl font-black text-slate-900 dark:text-white mt-1 block">{currencySymbol}{totalWithdrawals.toLocaleString()}</span>
+            <span className="text-2xl font-black text-slate-900 dark:text-white mt-1 block font-mono">{currencySymbol}{totalWithdrawals.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
           </div>
         </div>
       )}
@@ -174,7 +174,7 @@ export const AdminView: React.FC = () => {
                     <td className="py-3.5 px-5 font-mono font-bold text-slate-900 dark:text-white">{acc.accountNumber}</td>
                     <td className="py-3.5 px-5 text-slate-600 dark:text-slate-300 font-medium">{acc.accountType}</td>
                     <td className="py-3.5 px-5 text-right font-mono font-bold text-slate-900 dark:text-white">
-                      {currencySymbol}{acc.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      {currencySymbol}{acc.balance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </td>
                     <td className="py-3.5 px-5 text-center">
                       <span

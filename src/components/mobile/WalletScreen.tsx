@@ -45,14 +45,14 @@ export const WalletScreen: React.FC = () => {
                 <span className="text-[11px] text-white/70 block">Available Balance</span>
                 <div className="text-2xl font-black">
                   {currencySymbol}
-                  {account.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                  {account.balance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </div>
               </div>
 
               <div className="flex items-center justify-between text-xs text-white/80">
                 <span className="font-mono tracking-wider">{account.accountNumber}</span>
-                <div className="bg-white text-slate-900 font-black text-[10px] italic px-2 py-0.5 rounded">
-                  VISA
+                <div className="bg-white text-[#005B9C] font-black text-[10px] tracking-wider px-2 py-0.5 rounded">
+                  RuPay
                 </div>
               </div>
             </div>

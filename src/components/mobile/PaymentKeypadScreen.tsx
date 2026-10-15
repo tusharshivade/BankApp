@@ -128,13 +128,13 @@ export const PaymentKeypadScreen: React.FC<PaymentKeypadScreenProps> = ({
       {/* Mini Wallet Balance Card */}
       <div className="rounded-2xl bg-[#2555EA] text-white p-4 flex items-center justify-between shadow-lg shadow-blue-600/20">
         <div className="flex items-center gap-3">
-          <div className="bg-white text-[#2555EA] font-black text-[10px] italic px-2 py-0.5 rounded shadow-sm">
-            VISA
+          <div className="bg-white text-[#005B9C] font-black text-[10px] tracking-wider px-2 py-0.5 rounded shadow-sm">
+            RuPay
           </div>
           <div>
             <span className="text-[11px] text-blue-100 block">Wallet Balance</span>
             <span className="text-sm font-bold text-white">
-              {currencySymbol}{primaryAccount.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              {currencySymbol}{primaryAccount.balance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
             </span>
           </div>
         </div>
@@ -168,7 +168,7 @@ export const PaymentKeypadScreen: React.FC<PaymentKeypadScreenProps> = ({
           {currencySymbol}{amountStr || '0'}
         </div>
         <p className="text-xs font-medium text-slate-400 mt-1">
-          Your balance: {currencySymbol}{primaryAccount.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+          Your balance: {currencySymbol}{primaryAccount.balance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
         </p>
       </div>
 

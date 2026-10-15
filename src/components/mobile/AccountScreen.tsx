@@ -95,16 +95,13 @@ export const AccountScreen: React.FC<AccountScreenProps> = ({ onOpenAdmin }) => 
               <Coins className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-bold text-slate-800 block">Currency Display</span>
-              <span className="text-[11px] text-slate-400">Toggle between USD and INR</span>
+              <span className="font-bold text-slate-800 block">Currency Standard</span>
+              <span className="text-[11px] text-slate-400">Indian Rupee (₹ / INR)</span>
             </div>
           </div>
-          <button
-            onClick={toggleCurrency}
-            className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold font-mono transition"
-          >
-            {currencySymbol === '$' ? '$ USD' : '₹ INR'}
-          </button>
+          <span className="px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950 text-[#2555EA] dark:text-blue-400 font-bold font-mono text-xs">
+            ₹ INR (Bharat Default)
+          </span>
         </div>
 
         {/* Download CSV Statement */}

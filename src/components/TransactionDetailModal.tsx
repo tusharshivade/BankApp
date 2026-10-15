@@ -1,7 +1,8 @@
 import React from 'react';
 import type { Transaction } from '../types/banking';
 import { useBanking } from '../context/BankingContext';
-import { X, CheckCircle2, ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import { X, CheckCircle2, ArrowDownRight, ArrowUpRight, QrCode } from 'lucide-react';
+import { formatINR } from '../utils/formatters';
 
 interface TransactionDetailModalProps {
   transaction: Transaction | null;
@@ -27,12 +28,13 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({ 
             <CheckCircle2 className="w-6 h-6" />
           </div>
           <h3 className="text-base font-bold text-slate-900 dark:text-white">{transaction.description}</h3>
-          <p className="text-2xl font-black text-slate-900 dark:text-white mt-1">
+          <p className="text-2xl font-black text-slate-900 dark:text-white mt-1 font-mono">
             {transaction.transactionType === 'DEPOSIT' ? '+' : '-'}
-            {currencySymbol}
-            {transaction.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            {formatINR(transaction.amount)}
           </p>
-          <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">{transaction.referenceNumber}</span>
+          <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono block mt-0.5">
+            Ref: {transaction.referenceNumber}
+          </span>
         </div>
 
         <div className="py-4 space-y-2.5 text-xs">
@@ -45,21 +47,39 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({ 
           </div>
 
           <div className="flex justify-between py-1 border-b border-slate-50 dark:border-slate-800/60">
-            <span className="text-slate-400 dark:text-slate-500">Date & Time</span>
+            <span className="text-slate-400 dark:text-slate-500">Transfer Mode</span>
+            <span className="font-bold text-[#2555EA] dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded">
+              {transaction.transferMode || 'UPI 2.0 / IMPS'}
+            </span>
+          </div>
+
+          {transaction.upiReference && (
+            <div className="flex justify-between py-1 border-b border-slate-50 dark:border-slate-800/60">
+              <span className="text-slate-400 dark:text-slate-500">NPCI UTR</span>
+              <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
+                {transaction.upiReference}
+              </span>
+            </div>
+          )}
+
+          <div className="flex justify-between py-1 border-b border-slate-50 dark:border-slate-800/60">
+            <span className="text-slate-400 dark:text-slate-500">Date & Time (IST)</span>
             <span className="font-medium text-slate-800 dark:text-slate-200">
-              {new Date(transaction.createdAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
+              {new Date(transaction.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
             </span>
           </div>
 
           <div className="flex justify-between py-1 border-b border-slate-50 dark:border-slate-800/60">
             <span className="text-slate-400 dark:text-slate-500">Category</span>
-            <span className="font-semibold text-slate-800 dark:text-slate-200 capitalize">{transaction.category || transaction.transactionType}</span>
+            <span className="font-semibold text-slate-800 dark:text-slate-200 capitalize">
+              {transaction.category || transaction.transactionType}
+            </span>
           </div>
 
           {/* Double Entry Ledger Details */}
           <div className="pt-2">
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-1.5">
-              Double-Entry Ledger Integrity
+              RBI Double-Entry Ledger Integrity
             </span>
             {transaction.ledgerEntries && transaction.ledgerEntries.length > 0 ? (
               <div className="space-y-1.5">
@@ -74,7 +94,7 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({ 
                       <span className="font-bold text-slate-800 dark:text-slate-200">{e.entryType}</span>
                     </div>
                     <span className="font-mono text-slate-600 dark:text-slate-400">
-                      Post Bal: {currencySymbol}{e.balanceAfter.toLocaleString()}
+                      Post Bal: {formatINR(e.balanceAfter)}
                     </span>
                   </div>
                 ))}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useBanking } from '../context/BankingContext';
-import { PlusCircle, X } from 'lucide-react';
+import { PlusCircle, X, QrCode } from 'lucide-react';
+import { formatINR } from '../utils/formatters';
 
 interface DepositModalProps {
   isOpen: boolean;
@@ -9,14 +10,14 @@ interface DepositModalProps {
 
 export const DepositModal: React.FC<DepositModalProps> = ({ isOpen, onClose }) => {
   const { accounts, deposit, currencySymbol } = useBanking();
-  const primaryAccount = accounts[0] || { id: 1, accountNumber: '**** 4312', balance: 18500 };
+  const primaryAccount = accounts[0] || { id: 1, accountNumber: 'FCBL1001002001', balance: 185000 };
 
-  const [amount, setAmount] = useState<string>('500');
-  const [description, setDescription] = useState<string>('Online Wallet Top-up');
+  const [amount, setAmount] = useState<string>('2000');
+  const [description, setDescription] = useState<string>('UPI Wallet Top-up');
 
   if (!isOpen) return null;
 
-  const quickAmounts = [100, 250, 500, 1000];
+  const quickAmounts = [500, 1000, 2000, 5000];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,24 +45,26 @@ export const DepositModal: React.FC<DepositModalProps> = ({ isOpen, onClose }) =
             <PlusCircle className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-slate-900 dark:text-white">Add Money / Deposit</h3>
-            <p className="text-xs text-slate-400 dark:text-slate-500">Simulate adding funds to wallet</p>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">Add Funds via UPI</h3>
+            <p className="text-xs text-slate-400 dark:text-slate-500">Instant credit to {primaryAccount.accountNumber}</p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Amount ({currencySymbol})</label>
+            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+              Deposit Amount (INR ₹)
+            </label>
             <div className="relative">
-              <span className="absolute left-4 top-3 text-lg font-bold text-slate-400 dark:text-slate-500">{currencySymbol}</span>
+              <span className="absolute left-4 top-3 text-lg font-bold text-slate-400 dark:text-slate-500">₹</span>
               <input
                 type="number"
-                step="0.01"
+                step="1"
                 min="1"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 required
-                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl pl-9 pr-4 py-3 text-lg font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#2555EA]"
+                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl pl-9 pr-4 py-3 text-lg font-bold font-mono text-slate-900 dark:text-white focus:outline-none focus:border-[#2555EA]"
               />
             </div>
 
@@ -73,7 +76,7 @@ export const DepositModal: React.FC<DepositModalProps> = ({ isOpen, onClose }) =
                   onClick={() => setAmount(q.toString())}
                   className="flex-1 py-1 text-xs rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-[#2555EA] dark:hover:text-blue-400 text-slate-700 dark:text-slate-300 font-semibold transition"
                 >
-                  +{currencySymbol}{q}
+                  +₹{q.toLocaleString('en-IN')}
                 </button>
               ))}
             </div>
@@ -101,7 +104,7 @@ export const DepositModal: React.FC<DepositModalProps> = ({ isOpen, onClose }) =
               type="submit"
               className="flex-1 py-3 rounded-2xl bg-[#2555EA] hover:bg-blue-600 text-white font-bold text-xs shadow-md transition"
             >
-              Confirm Deposit
+              Deposit {formatINR(parseFloat(amount) || 0)}
             </button>
           </div>
         </form>

@@ -20,7 +20,7 @@ import {
   Check,
   Scale,
   BookOpen,
-  DollarSign,
+  IndianRupee,
   Download,
   X,
   CreditCard,
@@ -52,7 +52,7 @@ export const LoansView: React.FC<LoansViewProps> = () => {
   const userAccounts = accounts.filter((a) => a.userId === currentUser.id && a.status === 'ACTIVE');
   const [selectedBranchId, setSelectedBranchId] = useState<string>(branches[0]?.id || 'br-01');
   const [selectedLoanType, setSelectedLoanType] = useState<LoanType>('PERSONAL');
-  const [loanAmount, setLoanAmount] = useState<number>(20000);
+  const [loanAmount, setLoanAmount] = useState<number>(500000);
   const [tenureMonths, setTenureMonths] = useState<number>(24);
   const [selectedAccountId, setSelectedAccountId] = useState<number>(userAccounts[0]?.id || 1);
   const [purpose, setPurpose] = useState<string>('Personal expense and home improvement');
@@ -97,6 +97,12 @@ export const LoansView: React.FC<LoansViewProps> = () => {
       icon: Scale,
     },
     {
+      type: 'GOLD',
+      title: 'Instant Gold Loan',
+      subtitle: 'Immediate disbursement against 22K/24K hallmarked gold, 9.0% fixed rate',
+      icon: Sparkles,
+    },
+    {
       type: 'VEHICLE',
       title: 'Auto & Vehicle Loan',
       subtitle: 'New or certified pre-owned personal or commercial vehicles',
@@ -110,7 +116,7 @@ export const LoansView: React.FC<LoansViewProps> = () => {
     },
   ];
 
-  const presetAmounts = [5000, 15000, 25000, 50000, 75000, 100000];
+  const presetAmounts = [50000, 100000, 250000, 500000, 1000000, 1500000];
   const tenureOptions = [6, 12, 18, 24, 36, 48, 60];
 
   const handleApply = (e: React.FormEvent) => {
@@ -292,7 +298,7 @@ export const LoansView: React.FC<LoansViewProps> = () => {
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Active Loan Debt</span>
             <span className="text-lg font-black text-white">
               {currencySymbol}
-              {totalActiveDebt.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              {totalActiveDebt.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
             </span>
           </div>
 
@@ -638,7 +644,7 @@ export const LoansView: React.FC<LoansViewProps> = () => {
                     {userAccounts.map((acc) => (
                       <option key={acc.id} value={acc.id}>
                         {acc.accountNumber} ({acc.accountType} - Current Balance: {currencySymbol}
-                        {acc.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })})
+                        {acc.balance.toLocaleString('en-IN', { minimumFractionDigits: 2 })})
                       </option>
                     ))}
                   </select>
@@ -661,7 +667,7 @@ export const LoansView: React.FC<LoansViewProps> = () => {
                   <span className="text-xs text-slate-400 font-medium block">Monthly Installment (EMI)</span>
                   <div className="text-3xl font-black text-white tracking-tight flex items-baseline gap-1">
                     {currencySymbol}
-                    {calculatedEmi.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {calculatedEmi.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     <span className="text-xs font-normal text-slate-400">/ month</span>
                   </div>
                   <span className="text-[11px] text-slate-400">
@@ -675,7 +681,7 @@ export const LoansView: React.FC<LoansViewProps> = () => {
                     <span>Principal Amount</span>
                     <span className="font-mono font-bold text-white">
                       {currencySymbol}
-                      {loanAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      {loanAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </span>
                   </div>
 
@@ -686,21 +692,21 @@ export const LoansView: React.FC<LoansViewProps> = () => {
                     </span>
                     <span className="font-mono font-bold text-amber-400">
                       {currencySymbol}
-                      {totalInterest.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      {totalInterest.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between text-slate-300">
                     <span>Processing Fee</span>
                     <span className="font-mono font-bold text-emerald-400">
-                      $0.00 (Waived)
+                      ₹0.00 (Waived per RBI rules)
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between text-slate-300">
                     <span>Prepayment / Foreclosure Fee</span>
                     <span className="font-mono font-bold text-emerald-400">
-                      0.00% after 6 mos
+                      0.00% (RBI Mandated 0% Penalty)
                     </span>
                   </div>
 
@@ -708,7 +714,7 @@ export const LoansView: React.FC<LoansViewProps> = () => {
                     <span>Total Repayment Amount</span>
                     <span className="font-mono text-emerald-400">
                       {currencySymbol}
-                      {totalRepayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      {totalRepayment.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </span>
                   </div>
                 </div>
@@ -927,7 +933,7 @@ export const LoansView: React.FC<LoansViewProps> = () => {
                         </span>
                         <div className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
                           {currencySymbol}
-                          {loan.remainingBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          {loan.remainingBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                         </div>
                       </div>
 
@@ -937,7 +943,7 @@ export const LoansView: React.FC<LoansViewProps> = () => {
                         </span>
                         <div className="text-2xl font-black text-[#2555EA] dark:text-blue-400 tracking-tight">
                           {currencySymbol}
-                          {loan.monthlyEmi.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          {loan.monthlyEmi.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                         </div>
                       </div>
                     </div>
@@ -1105,8 +1111,8 @@ export const LoansView: React.FC<LoansViewProps> = () => {
               </span>
               <p className="leading-relaxed">
                 All retail credit contracts issued by FinCore Bank branches operate under strict oversight of the
-                Central Banking Authority and the Fair Consumer Credit Protection Bureau. For regulatory inquiries or
-                disputes, contact our Compliance Directorate at compliance@fincore.bank or call toll-free +1 (800) 555-0999.
+                Reserve Bank of India (RBI) and the Banking Ombudsman scheme. For regulatory inquiries or
+                disputes, contact our Compliance Directorate at compliance@fincore.bank or call Mumbai toll-free +91 (022) 6655-0199.
               </p>
             </div>
           </div>
@@ -1162,7 +1168,7 @@ export const LoansView: React.FC<LoansViewProps> = () => {
                   <span className="text-[10px] text-slate-400 block font-sans">Sanctioned Amount</span>
                   <span className="font-bold text-emerald-600 dark:text-emerald-400">
                     {currencySymbol}
-                    {selectedSanctionLoan.principalAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    {selectedSanctionLoan.principalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                   </span>
                 </div>
                 <div>

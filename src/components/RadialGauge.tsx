@@ -7,8 +7,8 @@ interface RadialGaugeProps {
 }
 
 export const RadialGauge: React.FC<RadialGaugeProps> = ({
-  amount = '$80,720.50',
-  subText = 'from all accounts',
+  amount = '₹8,20,720.50',
+  subText = 'from all domestic accounts',
   size = 260,
 }) => {
   const center = size / 2;

@@ -37,9 +37,9 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
 
   // Primary account (first account)
   const primaryAccount = accounts[0] || {
-    balance: 18500,
-    accountNumber: '**** **** **** 4312',
-    currency: 'USD',
+    balance: 185000,
+    accountNumber: 'FCBL1001002001',
+    currency: 'INR',
   };
 
   const filteredTransactions = transactions.filter((tx) => {
@@ -99,7 +99,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
           <span className="text-3xl sm:text-[34px] font-black tracking-tight">
             {isBalanceHidden
               ? '••••••••'
-              : `${currencySymbol}${primaryAccount.balance.toLocaleString('en-US', {
+              : `${currencySymbol}${primaryAccount.balance.toLocaleString('en-IN', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}`}
@@ -220,7 +220,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
                   >
                     {isCredit ? '+' : '-'}
                     {currencySymbol}
-                    {tx.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    {tx.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                   </span>
                   <span className="text-[10px] text-slate-400">
                     {new Date(tx.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}

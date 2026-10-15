@@ -36,27 +36,27 @@ const FinCoreAppLayout: React.FC = () => {
   const getPageTitle = (tab: NavTabId) => {
     switch (tab) {
       case 'reports':
-        return 'Reports';
+        return 'Financial Reports';
       case 'dashboard':
         return 'Dashboard';
       case 'accounts':
-        return 'Accounts';
+        return 'Accounts & Deposits';
       case 'cards':
-        return 'Cards';
+        return 'RuPay Cards';
       case 'loans':
         return 'Branch Loans & Retail Credit';
       case 'transactions':
-        return 'Transactions';
+        return 'Passbook & Transactions';
       case 'payment':
-        return 'Payment';
+        return 'UPI & National Payments Hub';
       case 'invoicing':
-        return 'Invoicing';
+        return 'Statements & Tax Certificates';
       case 'trading':
-        return 'Trading';
+        return 'INR Forex & Commodity Markets';
       case 'admin':
-        return 'Governance';
+        return 'RBI Governance & Compliance';
       default:
-        return 'FinCore';
+        return 'FinCore Bank Bharat';
     }
   };
 

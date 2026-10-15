@@ -100,13 +100,13 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({ onSelectTran
                       </span>
                     </td>
                     <td className="py-3.5 px-5 text-slate-400 dark:text-slate-500">
-                      {new Date(tx.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
+                      {new Date(tx.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </td>
-                    <td className="py-3.5 px-5 text-right font-bold">
+                    <td className="py-3.5 px-5 text-right font-bold font-mono">
                       <span className={isCredit ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-900 dark:text-white'}>
                         {isCredit ? '+' : '-'}
                         {currencySymbol}
-                        {tx.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        {tx.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                       </span>
                     </td>
                     <td className="py-3.5 px-5 text-center">
